@@ -1,0 +1,5 @@
+Summarize the following dialogue.
+
+Dialogue: {dialogue}
+
+Return only the summary.

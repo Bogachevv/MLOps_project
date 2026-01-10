@@ -22,7 +22,7 @@ def _get_dtype(dtype: str) -> torch.dtype:
     return _DTYPE_MAP[dtype]
 
 
-def _load_tokenizer(cfg: DictConfig):
+def load_tokenizer(cfg: DictConfig):
     model_name = cfg.model.model
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -81,7 +81,7 @@ def _get_peft(config: DictConfig, model: AutoModelForCausalLM) -> PeftModel:
         return _get_peft_new(peft_config, model)
 
 
-def _load_model(cfg: DictConfig):
+def load_model(cfg: DictConfig):
     model_name = str(cfg.model.model)
 
     torch_dtype = _get_dtype(cfg.dtype)
@@ -104,7 +104,7 @@ def _load_model(cfg: DictConfig):
 
 
 def load_from_config(cfg: DictConfig) -> tuple[AutoModelForCausalLM | PeftModel, AutoTokenizer]:
-    model = _load_model(cfg)
-    tokenizer = _load_tokenizer(cfg)
+    model = load_model(cfg)
+    tokenizer = load_tokenizer(cfg)
 
     return model, tokenizer
