@@ -1,0 +1,11 @@
+defaults:
+  - model: llama3.2-1b-instruct
+  - peft_config: LoRA_r8
+  - trainer_config: simple_trainer
+  - dataset: samsum
+  - _self_
+
+peft_config:
+  load_pretrained: false
+
+dtype: float16

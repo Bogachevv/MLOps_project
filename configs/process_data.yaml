@@ -1,0 +1,9 @@
+defaults:
+  - dataset: samsum
+  - model: llama3.2-1b-instruct.yaml
+  - _self_
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
