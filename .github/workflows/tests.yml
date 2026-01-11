@@ -3,7 +3,7 @@ name: tests
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
 
 concurrency:
   group: tests-${{ github.ref }}
@@ -47,3 +47,10 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.xml
+      
+      - name: Upload coverage.xml artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+          if-no-files-found: error
