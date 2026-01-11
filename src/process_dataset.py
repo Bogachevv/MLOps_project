@@ -4,6 +4,9 @@ from datasets import DatasetDict
 
 import load_model
 
+import numpy as np
+import numexpr
+
 import hydra
 from omegaconf import OmegaConf, DictConfig
 OmegaConf.register_new_resolver('eval', lambda expr: numexpr.evaluate(expr).item(), replace=True)

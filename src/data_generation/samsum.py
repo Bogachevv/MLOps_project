@@ -58,8 +58,8 @@ def _process(cfg: DictConfig, dataset: DatasetDict, tokenizer: transformers.Auto
     sys_prompt = _get_prompt(cfg.dataset.sys_prompt_pth)
     usr_prompt = _get_prompt(cfg.dataset.usr_prompt_pth)
 
-    batch_size = cfg.dataset.get('preprocessing_bs')
-    num_proc = cfg.dataset.get('preprocessing_nproc')
+    # batch_size = cfg.dataset.get('preprocessing_bs')
+    # num_proc = cfg.dataset.get('preprocessing_nproc')
 
     remove_cols = dataset["train"].column_names
     dataset = dataset.map(

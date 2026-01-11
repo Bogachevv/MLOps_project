@@ -1,5 +1,5 @@
-run_name: simle-trainer
-output_dir: bogachevv/simle-trainer
+run_name: simple-trainer
+output_dir: bogachevv/simple-trainer
 max_seq_length: 2048
 dataset_text_field: text
 fp16: true
