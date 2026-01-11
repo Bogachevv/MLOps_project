@@ -23,6 +23,7 @@ import load_data
 
 from typing import Union, Optional
 
+
 def get_trainer(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer, train_dataset, val_dataset):
     training_args = SFTConfig(
         **OmegaConf.to_container(cfg.trainer_config, resolve=True),
@@ -65,7 +66,7 @@ def train(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokeni
     tokenizer.save_pretrained(cfg.peft_config.pretrained_path)
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="train")
+@hydra.main(version_base=None, config_path="../../configs", config_name="train")
 def main(cfg: DictConfig):
     print("=== Effective config ===")
     print(OmegaConf.to_yaml(cfg))

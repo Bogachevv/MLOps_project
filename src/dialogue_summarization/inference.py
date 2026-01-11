@@ -49,7 +49,7 @@ def generate(model_inputs, model, tokenizer) -> str:
     return content
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="inference")
+@hydra.main(version_base=None, config_path="../../configs", config_name="inference")
 def main(cfg: DictConfig):
     print("=== Effective config ===")
     print(OmegaConf.to_yaml(cfg))

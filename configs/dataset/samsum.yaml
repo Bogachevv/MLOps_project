@@ -1,4 +1,4 @@
 ds_name: knkarthick/samsum
-sys_prompt_pth: ./prompts/samsum_sysprompt.txt
-usr_prompt_pth: ./prompts/samsum_usrprompt.txt
-save_path: ./datasets/samsum
+sys_prompt_pth: ../../prompts/samsum_sysprompt.txt
+usr_prompt_pth: ../../prompts/samsum_usrprompt.txt
+save_path: ../../datasets/samsum
