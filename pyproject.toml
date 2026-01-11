@@ -25,6 +25,8 @@ dependencies = [
     "nltk (>=3.9.2,<4.0.0)",
     "rouge-score (>=0.1.2,<0.2.0)",
     "python-dotenv (>=1.2.1,<2.0.0)",
+    "comet-ml (>=3.55.0,<4.0.0)",
+    "hf-xet (>=1.2.0,<2.0.0)",
 ]
 
 [dependency-groups]

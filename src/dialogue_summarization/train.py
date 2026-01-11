@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+import comet_ml
+
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -19,11 +25,9 @@ import peft
 from peft import PeftModel
 
 from dialogue_summarization import load_model, load_data
+from dialogue_summarization.loggers import log_hydra
 
 from typing import Union, Optional
-
-from dotenv import load_dotenv
-load_dotenv()
 
 
 def get_trainer(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer, train_dataset, val_dataset):
@@ -57,6 +61,15 @@ def train(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokeni
     print(f"Max shard size: {max_shard_size}")
     
     trainer = get_trainer(cfg, model, tokenizer, train_dataset, val_dataset)
+    
+    trainer.add_callback(
+        log_hydra.HydraOutputsToCometCallback(
+            asset_name="hydra_outputs",
+            base_dir=".hydra",
+            cfg=cfg
+        )
+    )
+    
     trainer.train()
 
     merge_adapters = cfg.peft_config.get('merge_tuned', False)
@@ -68,6 +81,12 @@ def train(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokeni
 
     model.save_pretrained(cfg.peft_config.pretrained_path, max_shard_size=max_shard_size)
     tokenizer.save_pretrained(cfg.peft_config.pretrained_path)
+
+    repo_id = cfg.get("hf_repo_id")
+    if repo_id:
+        print(f"Uploading to {repo_id}")
+        model.push_to_hub(repo_id, token=os.environ['HF_SAVE_TOKEN'])
+        tokenizer.push_to_hub(repo_id, token=os.environ['HF_SAVE_TOKEN'])
 
 
 @hydra.main(version_base=None, config_path="../../configs", config_name="train")
