@@ -77,8 +77,9 @@ def _get_peft_pretrained(peft_config: DictConfig, model: AutoModelForCausalLM) -
 
 def _get_peft(config: DictConfig, model: AutoModelForCausalLM) -> PeftModel:
     peft_config = config.peft_config
+    use_peft = peft_config.get('load_pretrained', False)
 
-    if peft_config.get('pretrained_path'):
+    if use_peft:
         return _get_peft_pretrained(peft_config, model)
     else:
         return _get_peft_new(peft_config, model)

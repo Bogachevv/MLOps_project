@@ -5,4 +5,7 @@ defaults:
   - dataset: samsum
   - _self_
 
+peft_config:
+  load_pretrained: false
+
 dtype: float16
