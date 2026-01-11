@@ -1,5 +1,9 @@
 # Dialogue Summarization (SAMSum)
 
+[![tests](../../actions/workflows/tests.yml/badge.svg?branch=main)](../../actions/workflows/tests.yml)
+
+[![codecov](https://codecov.io/gh/Bogachevv/MLOps_project/branch/main/graph/badge.svg)](https://codecov.io/gh/Bogachevv/MLOps_project)
+
 ## Краткое описание
 
 Цель проекта — построить сервис, который по переписке в чате (dialogue) автоматически генерирует краткое резюме (summary). В качестве модели используется LLM (конкретная архитектура/чекпойнт будут выбраны позже); модель дообучается (fine-tuning) на датасете **SAMSum** --- наборе диалогов в стиле мессенджеров с вручную размеченными краткими резюме.

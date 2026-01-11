@@ -2,7 +2,7 @@ import transformers
 import datasets
 from datasets import DatasetDict
 
-import .load_model
+import dialogue_summarization.load_model as load_model
 
 import numpy as np
 import numexpr

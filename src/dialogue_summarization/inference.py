@@ -1,4 +1,4 @@
-import load_model
+import dialogue_summarization.load_model as load_model
 
 import transformers
 from transformers import pipeline
