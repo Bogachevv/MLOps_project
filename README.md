@@ -1,8 +1,8 @@
 # Dialogue Summarization (SAMSum)
 
-[![tests](../../actions/workflows/tests.yml/badge.svg?branch=main)](../../actions/workflows/tests.yml)
+[![tests](/actions/workflows/tests.yml/badge.svg?branch=master)](/actions/workflows/tests.yml)
 
-[![codecov](https://codecov.io/gh/Bogachevv/MLOps_project/branch/main/graph/badge.svg)](https://codecov.io/gh/Bogachevv/MLOps_project)
+[![codecov](https://codecov.io/gh/Bogachevv/MLOps_project/branch/master/graph/badge.svg)](https://codecov.io/gh/Bogachevv/MLOps_project)
 
 ## Краткое описание
 
