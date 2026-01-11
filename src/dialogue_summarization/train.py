@@ -27,6 +27,8 @@ load_dotenv()
 
 
 def get_trainer(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer, train_dataset, val_dataset):
+    model.train()
+
     training_args = SFTConfig(
         **OmegaConf.to_container(cfg.trainer_config, resolve=True),
     )

@@ -25,7 +25,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+@torch.inference_mode()
 def validate(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer, val_dataset):
+    model.eval()
+
     validation_cfg = cfg.validation
 
     max_samples = validation_cfg.validation_samples 
