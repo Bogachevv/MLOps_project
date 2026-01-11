@@ -1,34 +1,47 @@
-import sys
-import types
-
 import pytest
+from datasets import Dataset, DatasetDict
 from omegaconf import OmegaConf
 
 from dialogue_summarization import process_dataset
 
 
-def _install_data_generation_module() -> None:
-    data_generation = types.ModuleType("data_generation")
-    samsum = types.ModuleType("data_generation.samsum")
-    data_generation.samsum = samsum
-    sys.modules["data_generation"] = data_generation
-    sys.modules["data_generation.samsum"] = samsum
-
-
 def test_process_by_config_uses_samsum(mocker):
-    _install_data_generation_module()
-    mock_process = mocker.patch(
-        "data_generation.samsum.process_by_config",
-        return_value={"train": "ok"},
-        create=True,
+    dataset = DatasetDict(
+        {"train": Dataset.from_dict({"dialogue": ["Hi"], "summary": ["Bye"]})}
     )
-    cfg = OmegaConf.create({"dataset": {"ds_name": "knkarthick/samsum"}})
+
     tokenizer = mocker.Mock()
+    tokenizer.apply_chat_template.side_effect = ["PROMPT", "FULL"]
+    cfg = OmegaConf.create(
+        {
+            "dataset": {
+                "ds_name": "knkarthick/samsum",
+                "sys_prompt_pth": "sys_prompt.txt",
+                "usr_prompt_pth": "usr_prompt.txt",
+            }
+        }
+    )
+
+    load_mock = mocker.patch(
+        "dialogue_summarization.data_generation.samsum._load_dataset",
+        return_value=dataset,
+    )
+    
+    get_prompt_mock = mocker.patch(
+        "dialogue_summarization.data_generation.samsum._get_prompt",
+        side_effect=["SYS", "USR {dialogue}"],
+    )
+    save_mock = mocker.patch("dialogue_summarization.data_generation.samsum._save")
 
     result = process_dataset.process_by_config(cfg, tokenizer)
 
-    mock_process.assert_called_once_with(cfg, tokenizer)
-    assert result == {"train": "ok"}
+    load_mock.assert_called_once_with(cfg)
+    get_prompt_mock.assert_has_calls(
+        [mocker.call("sys_prompt.txt"), mocker.call("usr_prompt.txt")]
+    )
+    save_mock.assert_called_once_with(cfg, result)
+    assert result["train"][0]["prompt_text"] == "PROMPT"
+    assert result["train"][0]["text"] == "FULL"
 
 
 def test_process_by_config_unknown_dataset():

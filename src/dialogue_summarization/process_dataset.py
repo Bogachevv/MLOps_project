@@ -16,7 +16,7 @@ def process_by_config(cfg: DictConfig, tokenizer: transformers.AutoTokenizer) ->
     ds_name = cfg.dataset.ds_name
 
     if ds_name == 'knkarthick/samsum':
-        from data_generation import samsum
+        from dialogue_summarization.data_generation import samsum
         return samsum.process_by_config(cfg, tokenizer)
     
 

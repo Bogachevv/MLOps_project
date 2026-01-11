@@ -41,7 +41,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 package-mode = true
-packages = [{ include = "dialogue_summarization", from = "src" }]
+packages = [{ include = "dialogue_summarization", from = "src" }, { include = "metrics", from = "src" }]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
