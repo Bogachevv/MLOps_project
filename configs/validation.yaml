@@ -1,0 +1,8 @@
+defaults:
+  - model: llama3.2-1b-instruct
+  - peft_config: null
+  - validation: simple_validation
+  - dataset: samsum
+  - _self_
+
+dtype: float16
