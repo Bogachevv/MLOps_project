@@ -61,8 +61,8 @@ def train(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokeni
             safe_merge=True
         )
 
-    model.save_pretrained(config.adapter_config.peft_pretrained_path, max_shard_size=max_shard_size)
-    tokenizer.save_pretrained(config.adapter_config.peft_pretrained_path)
+    model.save_pretrained(cfg.peft_config.pretrained_path, max_shard_size=max_shard_size)
+    tokenizer.save_pretrained(cfg.peft_config.pretrained_path)
 
 
 @hydra.main(version_base=None, config_path="../configs", config_name="train")
