@@ -19,10 +19,11 @@ import peft
 from peft import PeftModel
 
 from dialogue_summarization import load_model, load_data
-# import load_model
-# import load_data
 
 from typing import Union, Optional
+
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def get_trainer(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer, train_dataset, val_dataset):

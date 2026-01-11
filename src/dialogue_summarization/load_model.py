@@ -8,6 +8,9 @@ from peft import get_peft_model, PeftConfig, LoraConfig, PeftModel, TaskType
 
 from omegaconf import DictConfig, OmegaConf
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def _get_dtype(dtype: str) -> torch.dtype:
     _DTYPE_MAP = {
