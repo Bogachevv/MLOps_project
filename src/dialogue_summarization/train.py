@@ -18,8 +18,9 @@ OmegaConf.register_new_resolver('eval', lambda expr: numexpr.evaluate(expr).item
 import peft
 from peft import PeftModel
 
-import load_model
-import load_data
+from dialogue_summarization import load_model, load_data
+# import load_model
+# import load_data
 
 from typing import Union, Optional
 
