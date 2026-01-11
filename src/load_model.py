@@ -27,6 +27,9 @@ def load_tokenizer(cfg: DictConfig):
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
+    if not tokenizer.pad_token:
+        tokenizer.pad_token = tokenizer.eos_token
+
     return tokenizer
 
 
