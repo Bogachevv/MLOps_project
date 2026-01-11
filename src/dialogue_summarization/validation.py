@@ -19,7 +19,7 @@ from peft import PeftModel
 from dialogue_summarization import load_model, load_data
 import metrics
 
-from typing import Union, Optional
+from typing import Union, Optional, Any
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -34,6 +34,11 @@ def validate(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tok
     max_samples = validation_cfg.validation_samples 
     batch_size = int(validation_cfg.get("batch_size", 1)) 
     max_new_tokens = int(validation_cfg.get("max_new_tokens", 128))
+    
+    if "generation" in cfg.model:
+        generation_kwgs: dict[str, Any] = OmegaConf.to_container(cfg.model.generation, resolve=True)
+    else:
+        generation_kwgs: dict[str, Any] = dict()
 
     if max_samples: 
         max_samples = min(int(max_samples), len(val_dataset)) 
@@ -45,7 +50,8 @@ def validate(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tok
         list(val_dataset['prompt_text']),
         return_full_text=False,
         max_new_tokens=max_new_tokens,
-        batch_size=batch_size
+        batch_size=batch_size,
+        **generation_kwgs
     )
     predictions = [
         gen[0]['generated_text'].replace('assistant\n\n', '')
