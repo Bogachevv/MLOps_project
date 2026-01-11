@@ -66,7 +66,7 @@ def test_build_texts_returns_expected_fields_and_texts(mocker):
     )
 
 
-def test_process_removes_original_columns_and_adds_texts(tmp_path, mocker):
+def test_process_removes_redundant_columns_and_adds_texts(tmp_path, mocker):
     dataset = _make_dataset_dict()
     sys_prompt = tmp_path / "sys.txt"
     usr_prompt = tmp_path / "usr.txt"
@@ -87,7 +87,7 @@ def test_process_removes_original_columns_and_adds_texts(tmp_path, mocker):
 
     result = samsum._process(cfg, dataset, tokenizer)
 
-    assert result["train"].column_names == ["text", "prompt_text"]
+    assert set(result["train"].column_names) == {"dialogue", "summary", "text", "prompt_text"}, f"{result['train'].column_names=}"
     assert result["train"][0]["text"] == "FULL"
     assert result["train"][0]["prompt_text"] == "PROMPT"
 

@@ -12,6 +12,9 @@ OmegaConf.register_new_resolver('eval', lambda expr: numexpr.evaluate(expr).item
 
 import sys
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def _get_prompt(path: str) -> str:
     with open(path, 'r') as f:

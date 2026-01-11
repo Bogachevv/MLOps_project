@@ -94,6 +94,7 @@ def test_pipeline_integration(tmp_path, mocker):
     assert model_inputs is fake_batch
 
     model = mocker.Mock(spec=transformers.AutoModelForCausalLM)
+    model.train = mocker.Mock()
 
     collator = mocker.patch.object(
         train, "DataCollatorForCompletionOnlyLM", return_value="collator"

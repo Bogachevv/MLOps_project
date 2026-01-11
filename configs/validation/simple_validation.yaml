@@ -1,0 +1,4 @@
+validation_samples: 32
+batch_size: 4
+max_new_tokens: 128
+num_proc: 4

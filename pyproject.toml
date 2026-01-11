@@ -21,6 +21,10 @@ dependencies = [
     "omegaconf",
     "hydra-core (==1.3)",
     "numexpr (>=2.14.1,<3.0.0)",
+    "evaluate (>=0.4.6,<0.5.0)",
+    "nltk (>=3.9.2,<4.0.0)",
+    "rouge-score (>=0.1.2,<0.2.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
 ]
 
 [dependency-groups]
@@ -37,7 +41,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 package-mode = true
-packages = [{ include = "dialogue_summarization", from = "src" }]
+packages = [{ include = "dialogue_summarization", from = "src" }, { include = "metrics", from = "src" }]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
