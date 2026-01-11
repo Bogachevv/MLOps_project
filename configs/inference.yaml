@@ -1,6 +1,7 @@
 defaults:
   - model: qwen3-4b-Instruct
   - peft_config: null
+  - dataset: samsum
   - _self_
 
 dtype: float16
