@@ -116,14 +116,14 @@ ErrorRate = (# запросов со статусом 5xx + таймауты + a
 
 ### 3) ROUGE-L
 
-**Назначение:** похожесть на эталон (регресс-гарда)
+**Назначение:** похожесть на эталон
 
 **Как считаем:**  
 Считаем ROUGE-L между сгенерированным summary и референсным summary на фиксированном оффлайн-наборе (SAMSum test). ROUGE-L основан на **LCS (Longest Common Subsequence)** между текстами.
 
 **Целевое значение (порог релиза):**
 
-- ROUGE-L ≥ **???** на SAMSum test
+- ROUGE-L ≥ **0.3** на SAMSum test
 
 Ссылки:
 - ROUGE / ROUGE-L (Lin, 2004): https://aclanthology.org/W04-1013.pdf
