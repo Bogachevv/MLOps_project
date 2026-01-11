@@ -1,0 +1,15 @@
+ft_strategy: LoRA
+peft_is_trainable: true
+LoRA_config:
+  r: 8
+  lora_alpha: ${eval:2*${.r}}
+  lora_dropout: 0.05
+  use_rslora: true
+  target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - up_proj
+  - down_proj
+  - gate_proj

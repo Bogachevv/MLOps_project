@@ -1,0 +1,11 @@
+defaults:
+  - model: qwen3-4b-Instruct
+  - peft_config: null
+  - _self_
+
+dtype: float16
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
