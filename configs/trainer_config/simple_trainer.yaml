@@ -1,5 +1,5 @@
 run_name: ${hydra:job.name}
-output_dir: bogachevv/${hydra:job.name}
+output_dir: checkpoints/${hydra:job.name}
 max_seq_length: 2048
 dataset_text_field: text
 fp16: true
