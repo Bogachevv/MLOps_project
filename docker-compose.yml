@@ -49,3 +49,21 @@ services:
       - driver: nvidia
         count: all
         capabilities: ["gpu"]
+
+  serve:
+    build:
+      context: .
+      dockerfile: docker/serve/Dockerfile
+    profiles:
+      - serve
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+    shm_size: "2gb"
+    device_requests:
+      - driver: nvidia
+        count: all
+        capabilities: ["gpu"]
