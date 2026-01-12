@@ -56,6 +56,16 @@ def get_trainer(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], 
     return trainer
 
 
+def push_to_hub(cfg: DictConfig, repo_id: str, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer) -> None:
+    print(f"Uploading to {repo_id}")
+
+    token = os.environ.get('HF_SAVE_TOKEN')
+    token = os.environ.get('HF_TOKEN') if token is None else token
+
+    model.push_to_hub(repo_id, token=token)
+    tokenizer.push_to_hub(repo_id, token=token)
+
+
 def train(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokenizer: AutoTokenizer, train_dataset, val_dataset):
     max_shard_size = cfg.get('save_shard_size', '5GB')
     print(f"Max shard size: {max_shard_size}")
@@ -84,9 +94,7 @@ def train(cfg: DictConfig, model: Union[AutoModelForCausalLM, PeftModel], tokeni
 
     repo_id = cfg.get("hf_repo_id")
     if repo_id:
-        print(f"Uploading to {repo_id}")
-        model.push_to_hub(repo_id, token=os.environ['HF_SAVE_TOKEN'])
-        tokenizer.push_to_hub(repo_id, token=os.environ['HF_SAVE_TOKEN'])
+        push_to_hub(cfg, repo_id, model, tokenizer)
 
 
 @hydra.main(version_base=None, config_path="../../configs", config_name="train")
