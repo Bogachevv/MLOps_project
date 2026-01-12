@@ -1,1 +1,10 @@
 **/__pycache__
+.env
+.hf_hub
+.vscode
+**/*.log
+.coverage
+.hydra
+/models
+/datasets
+/checkpoints

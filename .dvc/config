@@ -1,0 +1,8 @@
+[core]
+    autostage = true
+    remote = immers
+['remote "ydisk"']
+    url = webdavs://webdav.yandex.ru/MLOps_project/dvcstore
+['remote "immers"']
+    url = s3://mlops/dvcstore
+    endpointurl = https://api.immers.cloud:8080

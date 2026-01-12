@@ -1,0 +1,44 @@
+stages:
+  prepare:
+    cmd: poetry run python3 -m dialogue_summarization.process_dataset
+    deps:
+      - src/dialogue_summarization/process_dataset.py
+      - src/dialogue_summarization/load_model.py
+      - src/dialogue_summarization/data_generation/samsum.py
+      - configs/process_data.yaml
+      - configs/dataset/samsum.yaml
+      - configs/model/llama3.2-1b-instruct.yaml
+      - prompts/samsum_sysprompt.txt
+      - prompts/samsum_usrprompt.txt
+    outs:
+      - datasets/samsum
+  train:
+    cmd: poetry run python3 -m dialogue_summarization.train
+    deps:
+      - src/dialogue_summarization/train.py
+      - src/dialogue_summarization/load_model.py
+      - src/dialogue_summarization/load_data.py
+      - src/dialogue_summarization/loggers/log_hydra.py
+      - configs/train.yaml
+      - configs/trainer_config/simple_trainer.yaml
+      - configs/peft_config/LoRA_r8.yaml
+      - configs/dataset/samsum.yaml
+      - configs/model/llama3.2-1b-instruct.yaml
+      - datasets/samsum
+    outs:
+      - models/LoRA_r8
+      - checkpoints/train
+  evaluate:
+    cmd: poetry run python3 -m dialogue_summarization.validation peft_config=LoRA_r8 peft_config.load_pretrained=true peft_config.peft_is_trainable=false
+    deps:
+      - src/dialogue_summarization/validation.py
+      - src/dialogue_summarization/load_model.py
+      - src/dialogue_summarization/load_data.py
+      - src/metrics/rouge.py
+      - configs/validation.yaml
+      - configs/validation/simple_validation.yaml
+      - configs/peft_config/LoRA_r8.yaml
+      - configs/dataset/samsum.yaml
+      - configs/model/llama3.2-1b-instruct.yaml
+      - datasets/samsum
+      - models/LoRA_r8
