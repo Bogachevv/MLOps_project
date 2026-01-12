@@ -38,6 +38,12 @@ poetry run python3 -V
 poetry run python3 -m dialogue_summarization.train
 ```
 
+(Опционально) запуск через Docker Compose:
+
+```bash
+docker compose --profile train up --build train
+```
+
 ### Валидация
 
 Запуск оффлайн-валидации на выбранном датасете/сплите (например, SAMSum test):
@@ -52,6 +58,12 @@ poetry run python3 -m dialogue_summarization.validation
 
 ```bash
 poetry run python3 -m dialogue_summarization.inference
+```
+
+(Опционально) запуск через Docker Compose:
+
+```bash
+docker compose --profile inference up --build inference
 ```
 
 ---
@@ -77,6 +89,104 @@ poetry run python3 -m dialogue_summarization.inference model.max_new_tokens=128 
 ```
 
 Примечание: конкретные имена параметров зависят от структуры конфигов в `configs/`.
+
+---
+
+## TorchServe: онлайн-сервис для инференса
+
+Ниже описан пример запуска: подготовка артефактов, сборка `.mar`, запуск TorchServe через Docker Compose и пример REST-запроса.
+
+### 1) Подготовка артефактов модели
+
+Скрипт экспортирует модель в `state_dict` (`model.pt`), сохраняет tokenizer/config и копирует промпты:
+
+```bash
+poetry run python3 -m dialogue_summarization.torchserve_export
+```
+
+По умолчанию артефакты сохраняются в `torchserve/model_artifacts/mymodel`. Настройки — в `configs/torchserve_export.yaml`.
+
+### 2) Создание архива модели (torch-model-archiver)
+
+Из корня репозитория:
+
+```bash
+torch-model-archiver \
+  --model-name mymodel \
+  --version 1.0 \
+  --handler torchserve/handler.py \
+  --serialized-file torchserve/model_artifacts/mymodel/model.pt \
+  --extra-files torchserve/model_artifacts/mymodel \
+  --export-path torchserve/model_store
+```
+
+В результате получится `torchserve/model_store/mymodel.mar`.
+
+### 3) Docker Compose для TorchServe
+
+Соберите и запустите сервис:
+
+```bash
+docker compose --profile serve up --build -d serve
+```
+
+### 4) Проверка REST-сервиса
+
+```bash
+curl -X POST http://localhost:8080/predictions/mymodel -T torchserve/sample_input.json
+```
+
+Ожидаемый ответ (пример):
+
+```json
+[
+  {"summary": "Amanda baked cookies and will bring Jerry some tomorrow."}
+]
+```
+
+---
+
+## Форматы запросов и параметры конфигурации TorchServe
+
+### Формат входных данных (JSON)
+
+Минимальный формат:
+
+```json
+{
+  "dialogue": "Amanda: ...\nJerry: ..."
+}
+```
+
+Допустимый синоним поля: `inputs`.
+
+### Параметры генерации (перезаписывают defaults)
+
+Можно указать в теле запроса:
+
+- `max_new_tokens`
+- `temperature`
+- `top_p`
+- `top_k`
+- `do_sample`
+
+Пример:
+
+```json
+{
+  "dialogue": "Amanda: ...\nJerry: ...",
+  "max_new_tokens": 96,
+  "temperature": 0.5,
+  "top_p": 0.95,
+  "do_sample": true
+}
+```
+
+### Конфигурация сервиса
+
+- `torchserve/config.properties` — параметры запуска сервиса (адреса inference/management/metrics).  
+- `torchserve/model_config.json` — дефолтные параметры генерации для handler.  
+
 
 ---
 

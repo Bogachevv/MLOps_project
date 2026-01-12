@@ -698,6 +698,18 @@ patiencediff = ["patiencediff"]
 pgp = ["gpg"]
 
 [[package]]
+name = "enum-compat"
+version = "0.0.3"
+description = "enum/enum34 compatibility package"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "enum-compat-0.0.3.tar.gz", hash = "sha256:3677daabed56a6f724451d585662253d8fb4e5569845aafa8bb0da36b1a8751e"},
+    {file = "enum_compat-0.0.3-py3-none-any.whl", hash = "sha256:88091b617c7fc3bbbceae50db5958023c48dc40b50520005aa3bf27f8f7ea157"},
+]
+
+[[package]]
 name = "evaluate"
 version = "0.4.6"
 description = "HuggingFace community-driven open-source library of evaluation"
@@ -2206,7 +2218,7 @@ version = "12.1.0"
 description = "Python Imaging Library (fork)"
 optional = false
 python-versions = ">=3.10"
-groups = ["torch"]
+groups = ["main", "torch"]
 files = [
     {file = "pillow-12.1.0-cp310-cp310-macosx_10_10_x86_64.whl", hash = "sha256:fb125d860738a09d363a88daa0f59c4533529a90e564785e20fe875b200b6dbd"},
     {file = "pillow-12.1.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:cad302dc10fac357d3467a74a9561c90609768a6f73a1923b0fd851b6486f8b0"},
@@ -3698,6 +3710,52 @@ optree = ["optree (>=0.13.0)"]
 pyyaml = ["pyyaml"]
 
 [[package]]
+name = "torch-model-archiver"
+version = "0.12.0"
+description = "Torch Model Archiver is used for creating archives of trained neural net models that can be consumed by TorchServe inference"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "torch_model_archiver-0.12.0-py3-none-any.whl", hash = "sha256:baaf66065396c3512030b3b2c57cce333edab9fffe9e528352cb4cc291645a78"},
+]
+
+[package.dependencies]
+enum-compat = "*"
+
+[[package]]
+name = "torch-workflow-archiver"
+version = "0.2.15"
+description = "Torch Workflow Archiver is used for creating archives of workflow designed using trained neural net models that can be consumed by TorchServe inference"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "torch_workflow_archiver-0.2.15-py3-none-any.whl", hash = "sha256:0c7a478bcd2f6bfdd32d9f84458588ccd42ec8ef42a18093eac4c129bc896844"},
+]
+
+[[package]]
+name = "torchserve"
+version = "0.12.0"
+description = "TorchServe is a tool for serving neural net models for inference"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "torchserve-0.12.0-py3-none-any.whl", hash = "sha256:db127160102d29f390964f758b7ecc5039d3d278fafc85bf9994c273b3ef6954"},
+]
+
+[package.dependencies]
+packaging = "*"
+Pillow = "*"
+psutil = "*"
+wheel = "*"
+
+[package.extras]
+ipex = ["intel-extension-for-pytorch"]
+onnx = ["numpy", "onnx", "onnx-runtime"]
+
+[[package]]
 name = "torchvision"
 version = "0.24.0"
 description = "image and video datasets and models for torch deep learning"
@@ -3944,6 +4002,21 @@ brotli = ["brotli (>=1.2.0) ; platform_python_implementation == \"CPython\"", "b
 h2 = ["h2 (>=4,<5)"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
+
+[[package]]
+name = "wheel"
+version = "0.45.1"
+description = "A built-package format for Python"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "wheel-0.45.1-py3-none-any.whl", hash = "sha256:708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248"},
+    {file = "wheel-0.45.1.tar.gz", hash = "sha256:661e1abd9198507b1409a20c02106d9670b2576e916d58f520316666abca6729"},
+]
+
+[package.extras]
+test = ["pytest (>=6.0.0)", "setuptools (>=65)"]
 
 [[package]]
 name = "wrapt"
@@ -4375,4 +4448,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.15"
-content-hash = "c42779e5511b67ac6faeaff3eee94c103b9c1a1dbc8b47a36ee665e361aa1150"
+content-hash = "81db797adfd0e485e443886bd7ecb32a8e10a8609c33c2a3b7b040485fe2c659"

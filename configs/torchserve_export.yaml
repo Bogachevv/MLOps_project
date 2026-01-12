@@ -1,0 +1,16 @@
+defaults:
+  - model: llama3.2-1b-instruct
+  - peft_config: null
+  - dataset: samsum
+  - _self_
+
+dtype: float16
+
+torchserve:
+  model_dir: ./torchserve/model_artifacts/mymodel
+  model_config_path: ./torchserve/model_config.json
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
