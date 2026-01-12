@@ -1,0 +1,51 @@
+version: "1.0"
+
+services:
+  train:
+    build:
+      context: .
+      dockerfile: docker/train/Dockerfile
+    profiles:
+      - train
+    env_file:
+      - .env
+    environment:
+      HF_HOME: /cache/hf
+    volumes:
+      - ./datasets:/app/datasets
+      - ./models:/app/models
+      - ./checkpoints:/app/checkpoints
+      - ./outputs:/app/outputs
+      - ./configs:/app/configs:ro
+      - ./prompts:/app/prompts:ro
+      - ./.hf_hub:/cache/hf
+    command: ["dvc", "repro"]
+    shm_size: "2gb"
+    device_requests:
+      - driver: nvidia
+        count: all
+        capabilities: ["gpu"]
+
+  inference:
+    build:
+      context: .
+      dockerfile: docker/inference/Dockerfile
+    profiles:
+      - inference
+    env_file:
+      - .env
+    environment:
+      HF_HOME: /cache/hf
+    volumes:
+      - ./models:/app/models:ro
+      - ./configs:/app/configs:ro
+      - ./prompts:/app/prompts:ro
+      - ./.hf_hub:/cache/hf
+    stdin_open: true
+    tty: true
+    command: ["poetry", "run", "python3", "-m", "dialogue_summarization.inference"]
+    shm_size: "2gb"
+    device_requests:
+      - driver: nvidia
+        count: all
+        capabilities: ["gpu"]
