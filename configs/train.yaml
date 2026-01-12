@@ -10,3 +10,7 @@ peft_config:
 
 dtype: float16
 hf_repo_id: Bogachevv/samsum
+
+hydra:
+  run:
+    dir: .

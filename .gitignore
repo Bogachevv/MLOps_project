@@ -4,6 +4,7 @@
 .vscode
 **/*.log
 .coverage
+.hydra
 /models
 /datasets
 /checkpoints

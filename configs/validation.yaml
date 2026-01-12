@@ -6,3 +6,8 @@ defaults:
   - _self_
 
 dtype: float16
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
