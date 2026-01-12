@@ -1,7 +1,5 @@
 # Dialogue Summarization (SAMSum)
 
-[![tests](/actions/workflows/tests.yml/badge.svg?branch=master)](/actions/workflows/tests.yml)
-
 [![codecov](https://codecov.io/gh/Bogachevv/MLOps_project/branch/master/graph/badge.svg)](https://codecov.io/gh/Bogachevv/MLOps_project)
 
 ## Краткое описание
@@ -11,6 +9,74 @@
 Источники:
 - SAMSum paper (Gliwa et al., 2019): https://aclanthology.org/D19-5409/
 - SAMSum on Hugging Face (splits): https://huggingface.co/datasets/knkarthick/samsum
+
+---
+
+## Quick start
+
+Проект использует **Poetry** для управления зависимостями и **Hydra** для конфигурации запусков.
+
+### Установка зависимостей (Poetry)
+
+Убедитесь, что Poetry установлен, затем в корне репозитория выполните:
+
+```bash
+poetry install
+```
+
+Проверить, что окружение создано корректно:
+
+```bash
+poetry run python3 -V
+```
+
+### Дообучение (опционально)
+
+Запуск fine-tuning:
+
+```bash
+poetry run python3 -m dialogue_summarization.train
+```
+
+### Валидация
+
+Запуск оффлайн-валидации на выбранном датасете/сплите (например, SAMSum test):
+
+```bash
+poetry run python3 -m dialogue_summarization.validation
+```
+
+### Инференс
+
+Запуск инференса (генерация summary по входному dialogue):
+
+```bash
+poetry run python3 -m dialogue_summarization.inference
+```
+
+---
+
+## Переопределение параметров Hydra
+
+Hydra позволяет переопределять параметры конфигурации прямо из командной строки, не изменяя конфиги на диске. Общая форма:
+
+```bash
+poetry run python3 -m <module> key=value nested.key=value
+```
+
+Пример: выбрать конкретную модель (config group) для инференса:
+
+```bash
+poetry run python3 -m dialogue_summarization.inference model=llama3.2-1b-instruct
+```
+
+Также можно переопределять отдельные поля, например:
+
+```bash
+poetry run python3 -m dialogue_summarization.inference model.max_new_tokens=128 model.temperature=0.7
+```
+
+Примечание: конкретные имена параметров зависят от структуры конфигов в `configs/`.
 
 ---
 
@@ -50,14 +116,14 @@ ErrorRate = (# запросов со статусом 5xx + таймауты + a
 
 ### 3) ROUGE-L
 
-**Назначение:** похожесть на эталон (регресс-гарда)
+**Назначение:** похожесть на эталон
 
 **Как считаем:**  
 Считаем ROUGE-L между сгенерированным summary и референсным summary на фиксированном оффлайн-наборе (SAMSum test). ROUGE-L основан на **LCS (Longest Common Subsequence)** между текстами.
 
 **Целевое значение (порог релиза):**
 
-- ROUGE-L ≥ **???** на SAMSum test
+- ROUGE-L ≥ **0.3** на SAMSum test
 
 Ссылки:
 - ROUGE / ROUGE-L (Lin, 2004): https://aclanthology.org/W04-1013.pdf

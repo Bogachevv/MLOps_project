@@ -9,3 +9,4 @@ peft_config:
   load_pretrained: false
 
 dtype: float16
+hf_repo_id: Bogachevv/samsum
