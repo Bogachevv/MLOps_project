@@ -10,8 +10,6 @@ readme = "README.md"
 requires-python = ">=3.12,<3.15"
 
 dependencies = [
-    "torch (==2.9)",
-    "torchvision (==0.24)",
     "transformers (<=4.55)",
     "peft (<=0.18)",
     "datasets (<=4.4)",
@@ -30,6 +28,11 @@ dependencies = [
 ]
 
 [dependency-groups]
+torch = [
+    "torch (==2.9)",
+    "torchvision (==0.24)",
+]
+
 test = [
     "pytest (>=9.0.2,<10.0.0)",
     "pytest-mock (>=3.15.1,<4.0.0)",
