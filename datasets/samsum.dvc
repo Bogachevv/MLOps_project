@@ -1,0 +1,6 @@
+outs:
+- md5: ad08ab57a7e9cce51d1e77e82530e584.dir
+  size: 1925268661
+  nfiles: 64
+  hash: md5
+  path: samsum
