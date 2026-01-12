@@ -190,6 +190,14 @@ curl -X POST http://localhost:8080/predictions/mymodel -T torchserve/sample_inpu
 
 ---
 
+## Эксперименты
+
+Параметры, метрики и артефакты доступны по [ссылке](https://www.comet.com/bogachevv/mlops-project/view/new/panels)
+
+TODO: оформить
+
+---
+
 ## Метрики
 
 Ниже зафиксированы метрики для первой версии проекта. Метрики делятся на:
